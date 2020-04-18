@@ -903,23 +903,6 @@ PRODUCT_PACKAGES += $(CRDA)
 PRODUCT_PACKAGES += $(WLAN)
 PRODUCT_PACKAGES += $(FD_LEAK)
 
-PRODUCT_PACKAGES += android.hardware.drm@1.0-impl
-PRODUCT_PACKAGES += android.hardware.drm@1.0-service
-PRODUCT_PACKAGES += android.hardware.drm@1.1-service.widevine
-PRODUCT_PACKAGES += android.hardware.drm@1.1-service.clearkey
-
-# Don't use dynamic DRM HAL for non-go SPs
-ifneq ($(TARGET_HAS_LOW_RAM),true)
-PRODUCT_PACKAGES += android.hardware.drm@1.2-service.widevine
-PRODUCT_PACKAGES += android.hardware.drm@1.2-service.clearkey
-else
-PRODUCT_PACKAGES += android.hardware.drm@1.2-service-lazy.widevine
-PRODUCT_PACKAGES += android.hardware.drm@1.2-service-lazy.clearkey
-endif
-
-ifeq ($(strip $(OTA_FLAG_FOR_DRM)),true)
-PRODUCT_PACKAGES += move_widevine_data.sh
-endif
 PRODUCT_PACKAGES += move_wifi_data.sh
 PRODUCT_PACKAGES += librs_jni
 PRODUCT_PACKAGES += libion
@@ -982,12 +965,12 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_c2_audio.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_audio.xml \
     frameworks/av/media/libstagefright/data/media_codecs_google_c2_video.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2_video.xml \
-    device/qcom/common/media/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles.xml \
-    device/qcom/common/media/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml
+    device/qcom/common/media/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles.xml
 
 ifneq ($(TARGET_ENABLE_QC_AV_ENHANCEMENTS),true)
 PRODUCT_COPY_FILES += \
-    device/qcom/common/media/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml
+    device/qcom/common/media/media_codecs.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs.xml \
+    device/qcom/common/media/media_profiles.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml
 endif
 
 ifneq ($(TARGET_NOT_SUPPORT_VULKAN),true)
