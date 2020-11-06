@@ -1,5 +1,5 @@
 # define flag to determine the kernel
-TARGET_KERNEL_VERSION := $(shell ls -1r kernel | grep "msm-*" | sed 's/msm-//' | head -1)
+TARGET_KERNEL_VERSION ?= $(shell ls -1r kernel | grep "msm-*" | sed 's/msm-//' | head -1)
 
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := vendor/qcom/opensource/core-utils/vendor_framework_compatibility_matrix.xml
 
@@ -826,11 +826,6 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.servicetracker@1.2-impl \
     vendor.qti.hardware.servicetracker@1.2-service
 
-#debugUtils
-PRODUCT_PACKAGES_DEBUG += \
-     vendor.qti.hardware.debugutils@1.0-impl \
-     vendor.qti.hardware.debugutils@1.0-service
-
 #debugApp FDA
 PRODUCT_PACKAGES += FDA
 PRODUCT_PACKAGES += debug.script.rc
@@ -943,6 +938,11 @@ PRODUCT_PACKAGES += tcmiface
 
 #intialise PRODUCT_PACKAGES_DEBUG list for debug modules
 PRODUCT_PACKAGES_DEBUG := init.qcom.testscripts.sh
+
+#DebugUtils HAL
+PRODUCT_PACKAGES_DEBUG += \
+    vendor.qti.hardware.debugutils@1.0-impl \
+    vendor.qti.hardware.debugutils@1.0-service
 
 #Add init.qcom.test.rc to PRODUCT_PACKAGES_DEBUG list
 PRODUCT_PACKAGES_DEBUG += init.qcom.test.rc
